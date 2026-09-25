@@ -6,4 +6,7 @@ testing, change management and Git workflows.
 Name: Jesus Fernandez Bautista
 Professor: Richard Aviles Lopez
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch and commit conventions.
+
+
 
