@@ -1,0 +1,25 @@
+
+===== 1. Antes: sin destino por defecto =====
+
+NAME		       EN_MEMORIA		EN_SPFILE
+---------------------- ------------------------ ------------------------
+db_create_file_dest    (vac??o) 		(no especificado)
+
+===== 2. Cambio: OMF dentro del volumen, en memoria y en el SPFILE =====
+
+NAME		       EN_MEMORIA		EN_SPFILE
+---------------------- ------------------------ ------------------------
+db_create_file_dest    /opt/oracle/oradata	/opt/oracle/oradata
+
+===== 3. Prueba: CREATE TABLESPACE sin DATAFILE en FREEPDB1 =====
+
+TABLESPACE_NAME 	       FILE_NAME												    MB AUT     MAX_MB
+------------------------------ ---------------------------------------------------------------------------------------------------- ---------- --- ----------
+TBS_X			       /opt/oracle/oradata/FREE/55E54F210F100828E0630B00580ADFD0/datafile/o1_mf_tbs_x_ofnk5gv3_.dbf		   100 YES   33554432
+(Ruta OMF: <destino>/FREE/<GUID de la PDB>/datafile/o1_mf_tbs_x_<id>_.dbf, 100 MB con AUTOEXTEND)
+
+===== 4. Limpieza: el tablespace de prueba se borra con su archivo (OMF lo elimina solo) =====
+
+TBS_X_RESTANTES
+---------------
+	      0

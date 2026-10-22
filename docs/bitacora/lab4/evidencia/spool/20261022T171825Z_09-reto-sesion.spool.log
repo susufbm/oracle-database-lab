@@ -1,0 +1,7 @@
+SQL Format Cleared
+== Sesiones de usuario ACTIVAS ordenadas por PGA asignada (v$session + v$process) ==
+
+       SID    SERIAL# USERNAME     CONTENEDOR STATUS   SQL_ID         SPID     PGA_USADA_MB PGA_ASIGNADA_MB
+---------- ---------- ------------ ---------- -------- -------------- -------- ------------ ---------------
+        65      36028 C##OPS_RO    CDB$ROOT   ACTIVE   f88r893us4ywq  1490              5.3               6
+       223      34422 SYS          FREEPDB1   ACTIVE   cgsct69gusnpt  1777              2.6             3.3

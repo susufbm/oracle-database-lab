@@ -1,0 +1,6 @@
+SQL Format Cleared
+== Estadísticas reales de ACA_MATRICULAS (r, R, b) ==
+
+         R    R_BYTES          B   PCT_FREE BFR_UNIDAD3 B_PREDICHO MS_FULL_SCAN_HDD_150MBS
+---------- ---------- ---------- ---------- ----------- ---------- -----------------------
+     60000         30        370         10         242        248                    19.3

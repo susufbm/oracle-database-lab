@@ -1,0 +1,7 @@
+SQL Format Cleared
+
+== Firmas con más de 50 cursores distintos (candidatas a usar variables de enlace) ==
+
+CONTENEDOR      FIRMA   CURSORES EJECUCIONES KB_SHARED_POOL EJEMPLO                                                                                   
+---------- ---------- ---------- ----------- -------------- ------------------------------------------------------------------------------------------
+FREEPDB1   1.8632E+18        501         501          18106 SELECT /* lab4_literal */ COUNT(*) FROM admin_academia.aca_estudiantes WHERE estudiante_id
