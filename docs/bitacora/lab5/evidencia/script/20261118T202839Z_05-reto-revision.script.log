@@ -1,0 +1,21 @@
+== 1. Antes de reescribir, mirar los datos: ¿cómo se guardan teléfonos y apellidos? ==
+
+TELEFONO	APELLIDOS
+--------------- --------------------------------------------------------------------------------
+661452937	P??rez Castro
+656862585	Garc??a Cort??s
+688358983	Garc??a Lozano
+== 2. La consulta del compañero, tal cual (sin índices en telefono ni apellidos) ==
+reto rota		       filas=	 981  lecturas l??gicas=   1487  f??sicas=    0     15.7 ms
+			       plan: TABLE ACCESS FULL CLIENTE
+== 3. Índices temporales en las dos columnas ==
+reto rota + indices	       filas=	 981  lecturas l??gicas=   1487  f??sicas=    0     16.6 ms
+			       plan: TABLE ACCESS FULL CLIENTE
+reto reescrita		       filas=	 981  lecturas l??gicas=    722  f??sicas=    0      3.8 ms
+			       plan: TABLE ACCESS BY INDEX ROWID BATCHED CLIENTE > BITMAP CONVERSION TO ROWIDS > BITMAP OR > BITMAP CONVERSION FROM ROWIDS > INDEX RANGE SCAN IX_RETO_APE > BITMAP CONVE
+RSION FROM ROWIDS > SORT ORDER BY > INDEX RANGE SCAN IX_RETO_TEL
+== 4. Limpieza: el banco vuelve a su estado ==
+
+INDICES_TIENDASUR
+-----------------
+		7
