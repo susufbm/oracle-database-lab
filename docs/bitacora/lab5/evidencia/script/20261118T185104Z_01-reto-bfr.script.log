@@ -1,0 +1,10 @@
+== bfr según las estadísticas (NUM_ROWS / BLOCKS) ==
+
+  NUM_ROWS     BLOCKS  BFR_MEDIO
+---------- ---------- ----------
+   1000000	 5320	     188
+== bfr contado bloque a bloque con DBMS_ROWID ==
+
+BLOQUES_CON_FILAS  MIN_FILAS MEDIA_FILAS  MAX_FILAS
+----------------- ---------- ----------- ----------
+	     5220	   2	   191.6	200
