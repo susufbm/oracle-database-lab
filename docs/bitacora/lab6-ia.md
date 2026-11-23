@@ -99,3 +99,22 @@ gh issue close 12 --reason "not planned" --comment "Duplicate of #11, created by
 - **Propósito (para qué lo necesitaba):** La issue sirve para planificar y reportar errores, además de que tenemos trazabilidad del código. Tenía que ser la 11 porque era la siguiente de la anterior.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Creé una issue de más sin querer y tuve que cerrarla, listando las que había para saber cuáles había. Cerré la 12 porque la abrí sin querer.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** no aplica (actúa sobre GitHub, no sobre la base)
+
+## Entrada 7
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+hacemos un paron dime que debo de hacer
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```bash
+git status --short && git log --oneline -6
+git push -u origin chore/11-administracion-operativa
+cd ~/oracle-database-lab && source scripts/deployment/env/00-config.sh && docker start oralab-26ai
+docker ps --format '{{.Names}} {{.Status}}'
+git branch --show-current && bash scripts/ops/ro.sh scripts/ops/validar-arranque.sql
+```
+- **Dónde lo usé (parte, script o pregunta):** Pausa entre las Partes E y F
+- **Propósito (para qué lo necesitaba):** Necesitaba los comandos de parar y volver para no perder el progreso.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** El push sube mis commits y la rama a GitHub, el docker start arranca el contenedor de la base y el validar arranque verifica que el inicio haya sido correcto.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** no aplica (comandos de Git y Docker; validar-arranque se ejecutó por pantalla, sin guardar evidencia)
