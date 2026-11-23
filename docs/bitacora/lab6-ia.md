@@ -130,3 +130,82 @@ quieor que a partir de ahora me expliques linea  linea cada comando que lanzamos
 - **Propósito (para qué lo necesitaba):** Pedí las explicaciones para tratar de aprender mejor lo que estaba pasando por debajo.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** He aprendido, por ejemplo, que ts saca el tiempo en ese momento.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** no aplica
+
+## Entrada 9
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+y esta
+espera el 52 y bloquea el 49. esta parado, se perderia parte del trabajo de matriculas, porque  porque lo guardo segundo a segundo aunque el bloq ya no eiste se queda. D
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```bash
+BLOQ="19,22887"
+( source scripts/ops/cabecera.sh 08-inc1-intervencion; printf "ALTER SESSION SET CONTAINER = FREEPDB1;\nALTER SYSTEM KILL SESSION '%s' IMMEDIATE;\nEXIT\n" "$BLOQ" | docker exec -i "$CONT_NAME" sqlplus -s / as sysdba ) | tee "$EVID_LAB6/script/$(ts)_08-inc1-intervencion.script.log"
+( source scripts/ops/cabecera.sh 08-inc1-validacion; printf "ALTER SESSION SET CONTAINER = FREEPDB1;\nSELECT estudiante_id, estado FROM admin_academia.aca_estudiantes WHERE estudiante_id = 101;\nEXIT\n" | docker exec -i "$CONT_NAME" sqlplus -s / as sysdba ) | tee "$EVID_LAB6/script/$(ts)_08-inc1-validacion.script.log"
+```
+- **Dónde lo usé (parte, script o pregunta):** Pregunta H1 (pista para razonarla) y Parte I, incidente INC-601
+- **Propósito (para qué lo necesitaba):** La intervención, para poder llevar a cabo acciones que sirven para resolver un problema que está sucediendo en ese instante, y la validación, para saber que está sucediendo de manera correcta.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Altera el sistema, «mata» la sesión con ese número de forma instantánea.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** docs/bitacora/lab6/evidencia/script/20261123T172511Z_08-inc1-intervencion.script.log y docs/bitacora/lab6/evidencia/script/20261123T172526Z_08-inc1-validacion.script.log
+
+## Entrada 10
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+primero ana reinicia el pc, falla porque sigue bloqueado, ana saca el ticker lo detectamos, habia un fallo porque al hacer update deberia de haber un rollback o un commit pero no lo hay es un fallo de la función esta mal programada entonces hacemos el kill y matamos ese proceso para que se pueda seguir utilizando, hacemos le kill de 19,22887
+el primer bloqueo porque ana reinicio el ordenador, el primer kill para que no estuviese bloqeuaod el proceso, avisria al dba despued de9 segs
+C, C
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** docs/bitacora/lab6-guardia.md, sección INC-601. La IA unió mis respuestas a sus preguntas, añadió los valores de mis evidencias, corrigió mis errores y me dio opciones a elegir en las incidencias de la guardia.
+- **Dónde lo usé (parte, script o pregunta):** Parte I, postmortem de INC-601
+- **Propósito (para qué lo necesitaba):** Para que me ayudase a entender de manera correcta los pasos a seguir en un postmortem.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** En el postmortem aprendí a corregir según los ORA y a diagnosticar qué ha pasado según los logs.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** docs/bitacora/lab6/evidencia/script/20261123T172338Z_08-diagnostico.script.log y docs/bitacora/lab6/evidencia/script/20261123T172516Z_08-diagnostico.script.log
+
+## Entrada 11
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+usa el servicio academia_app, que esta apagado o no funcionado, C
+sigue
+el equipo de matriculas a las 18 y 55, con el error 12514. todos los users bo podian ahacer nada en la app de la academia. no sabemos quien lo paro simplemente no estava arrancado
+estaba arrancada. no, si. solo actua sobre la academia app.
+0 1 si se guardara
+A, B, B, B
+A
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```bash
+bash scripts/ops/app.sh scripts/lab6/06-app-sigue.sql 2>&1 | tee "$EVID_LAB6/script/$(ts)_08-inc2-sintoma.script.log"
+( source scripts/ops/cabecera.sh 08-inc2-intervencion; printf "ALTER SESSION SET CONTAINER = FREEPDB1;\nEXEC DBMS_SERVICE.START_SERVICE('academia_app')\nEXIT\n" | docker exec -i "$CONT_NAME" sqlplus -s / as sysdba ) | tee "$EVID_LAB6/script/$(ts)_08-inc2-intervencion.script.log"
+bash scripts/ops/app.sh scripts/lab6/06-app-sigue.sql 2>&1 | tee "$EVID_LAB6/script/$(ts)_08-inc2-validacion.script.log"
+( source scripts/ops/cabecera.sh 08-inc2-preventiva; printf "ALTER PLUGGABLE DATABASE FREEPDB1 SAVE STATE;\nCOLUMN con_name FORMAT A12\nCOLUMN state FORMAT A10\nSELECT con_name, state FROM dba_pdb_saved_states;\nEXIT\n" | docker exec -i "$CONT_NAME" sqlplus -s / as sysdba ) | tee "$EVID_LAB6/script/$(ts)_08-inc2-preventiva.script.log"
+```
+También docs/bitacora/lab6-guardia.md, sección INC-602: la IA unió mis respuestas a sus preguntas, añadió los valores de mis evidencias, corrigió mis errores y me dio opciones a elegir en Validación, Acción preventiva e Incidencias.
+- **Dónde lo usé (parte, script o pregunta):** Parte I, incidente y postmortem de INC-602
+- **Propósito (para qué lo necesitaba):** Para aprender cómo diagnosticar este error.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Arranca el servicio y guarda el estado.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** docs/bitacora/lab6/evidencia/script/20261123T190207Z_08-inc2-sintoma.script.log, 20261123T190214Z_08-inc2-intervencion.script.log, 20261123T190300Z_08-inc2-intervencion.script.log, 20261123T190308Z_08-inc2-validacion.script.log y 20261123T192415Z_08-inc2-preventiva.script.log
+
+## Entrada 12
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+vamos no me preguntes cosas que no sean necesarias ya que no tengo tiempo
+sguimos
+las preguntas hazmelas tu
+ponmelos con test
+C, A, B, C
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```bash
+bash scripts/ops/app.sh scripts/lab6/06-app-sigue.sql 2>&1 | tee "$EVID_LAB6/script/$(ts)_08-inc3-sintoma.script.log"
+( source scripts/ops/cabecera.sh 08-inc3-intervencion; printf "ALTER SESSION SET CONTAINER = FREEPDB1;\nALTER USER app_academia ACCOUNT UNLOCK;\nEXIT\n" | docker exec -i "$CONT_NAME" sqlplus -s / as sysdba ) | tee "$EVID_LAB6/script/$(ts)_08-inc3-intervencion.script.log"
+bash scripts/ops/app.sh scripts/lab6/06-app-sigue.sql 2>&1 | tee "$EVID_LAB6/script/$(ts)_08-inc3-validacion.script.log"
+```
+También docs/bitacora/lab6-guardia.md, sección INC-603: la IA redactó el postmortem con los valores de mis evidencias. La Causa raíz, la Acción preventiva, el Propósito y el Qué hace de esta entrada los elegí yo entre opciones de un test que me dio la IA.
+- **Dónde lo usé (parte, script o pregunta):** Parte I, incidente y postmortem de INC-603
+- **Propósito (para qué lo necesitaba):** Comprobar el error como lo ve la aplicación, desbloquear la cuenta y validar que vuelve a entrar.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Quita el bloqueo de esa cuenta sin cambiar su contraseña, permisos ni datos. (Opción elegida en el test de la IA, no redactada por mí.)
+- **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** docs/bitacora/lab6/evidencia/script/20261123T193601Z_08-diagnostico.script.log, 20261123T194304Z_08-inc3-sintoma.script.log, 20261123T194312Z_08-inc3-intervencion.script.log y 20261123T194317Z_08-inc3-validacion.script.log

@@ -1,0 +1,12 @@
+== EVIDENCIA alumno=E020 hora=2026-11-23T17:23:52Z origen=08-inc1-intervencion
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-23T16:24:19 scn=6276108
+
+Session altered.
+
+ALTER SYSTEM KILL SESSION 'SID,SERIAL' IMMEDIATE
+*
+ERROR at line 1:
+ORA-00026: missing or invalid session ID
+Help: https://docs.oracle.com/error-help/db/ora-00026/
+
+

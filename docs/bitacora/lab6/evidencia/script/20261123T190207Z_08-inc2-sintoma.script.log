@@ -1,0 +1,14 @@
+== EVIDENCIA alumno=E020 hora=2026-11-23T19:02:07Z origen=06-app-sigue
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-23T16:24:19 scn=6286091
+Connection failed
+  USER          = app_academia
+  URL           = jdbc:oracle:thin:@//localhost:1521/academia_app
+  Error Message = ORA-12514: Cannot connect to database. Service academia_app is not registered with the listener at host localhost port 1521. (CONNECTION_ID=9FDsirxUTSew9JA7fM+KJw==)
+https://docs.oracle.com/error-help/db/ora-12514/
+
+SP2-0640: Not connected
+SP2-0640: Not connected
+SP2-0640: Not connected
+SP2-0640: Not connected
+-- Ya no puede insertar en el histórico (el permiso temporal de la Parte F se retiró): error esperado
+SP2-0640: Not connected
