@@ -118,3 +118,15 @@ git branch --show-current && bash scripts/ops/ro.sh scripts/ops/validar-arranque
 - **Propósito (para qué lo necesitaba):** Necesitaba los comandos de parar y volver para no perder el progreso.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** El push sube mis commits y la rama a GitHub, el docker start arranca el contenedor de la base y el validar arranque verifica que el inicio haya sido correcto.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** no aplica (comandos de Git y Docker; validar-arranque se ejecutó por pantalla, sin guardar evidencia)
+
+## Entrada 8
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+quieor que a partir de ahora me expliques linea  linea cada comando que lanzamos para que sirve y asi aprender mas quiero que me enseñes. Pero guiandome
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** no aplica
+- **Dónde lo usé (parte, script o pregunta):** Parte H (explicación de los comandos y scripts 07)
+- **Propósito (para qué lo necesitaba):** Pedí las explicaciones para tratar de aprender mejor lo que estaba pasando por debajo.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** He aprendido, por ejemplo, que ts saca el tiempo en ese momento.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** no aplica
