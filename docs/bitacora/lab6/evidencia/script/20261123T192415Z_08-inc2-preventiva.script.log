@@ -1,0 +1,10 @@
+== EVIDENCIA alumno=E020 hora=2026-11-23T19:24:15Z origen=08-inc2-preventiva
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-23T16:24:19 scn=6289122
+
+Pluggable database altered.
+
+
+CON_NAME     STATE
+------------ ----------
+FREEPDB1     OPEN
+
