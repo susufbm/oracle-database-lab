@@ -209,3 +209,19 @@ También docs/bitacora/lab6-guardia.md, sección INC-603: la IA redactó el post
 - **Propósito (para qué lo necesitaba):** Comprobar el error como lo ve la aplicación, desbloquear la cuenta y validar que vuelve a entrar.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Quita el bloqueo de esa cuenta sin cambiar su contraseña, permisos ni datos. (Opción elegida en el test de la IA, no redactada por mí.)
 - **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** docs/bitacora/lab6/evidencia/script/20261123T193601Z_08-diagnostico.script.log, 20261123T194304Z_08-inc3-sintoma.script.log, 20261123T194312Z_08-inc3-intervencion.script.log y 20261123T194317Z_08-inc3-validacion.script.log
+
+## Entrada 13
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+Sí, empezamos
+seguimos
+por donde vamos?
+ola parte j es rapida?
+tre pedi ayuda para aprender de mejor manera, los comandos cat añaden el texto al archvio
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** comandos `cat > /tmp/incNNN.md <<'EOF'` + `awk` para sustituir cada postmortem en docs/bitacora/lab6-guardia.md, y comandos `grep -q '^## N\.' ... || cat >> docs/bitacora/lab6-respuestas.md <<'EOF'` para añadir cada respuesta. La IA me dio los datos de mis evidencias (archivo y valor) para cada pregunta, me señaló errores para que los corrigiera yo, corrigió mi ortografía y añadió las rutas de los archivos de evidencia. Los textos de los postmortems y de las respuestas son míos.
+- **Dónde lo usé (parte, script o pregunta):** Parte I (postmortems reescritos) y preguntas de comprobación 1 a 20 (docs/bitacora/lab6-respuestas.md)
+- **Propósito (para qué lo necesitaba):** Te pedí ayuda para aprender de mejor manera.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Los comandos cat añaden el texto al archivo.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab6/evidencia con mi cabecera):** docs/bitacora/lab6/evidencia/script/20261124T094406Z_08-inc2-tras-reinicio.script.log y las evidencias que cito en cada respuesta de docs/bitacora/lab6-respuestas.md
