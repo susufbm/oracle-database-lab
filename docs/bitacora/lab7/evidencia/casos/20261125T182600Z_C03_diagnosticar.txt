@@ -1,0 +1,35 @@
+== EVIDENCIA alumno=E020 hora=2026-11-25T18:26:00Z origen=t6/C03_diagnosticar
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-25T17:35:49 scn=6430102
+
+SYS@FREE> ALTER SESSION SET CONTAINER = FREEPDB1;
+
+Session altered.
+
+SYS@FREE> SET ECHO OFF
+== 1 · La sesión: cuántos análisis completos (hard parse) y cuánto tiempo de análisis ==
+
+MODO       LLAMADAS HARD_PARSES MS_ANALISIS PCT_TIEMPO_ANALIZANDO
+-------- ---------- ----------- ----------- ---------------------
+LITERAL        5000        5050        3420                    82
+
+1 row selected.
+
+== 2 · La firma: textos distintos que serían IGUALES con variables (FORCE_MATCHING_SIGNATURE) ==
+
+          FIRMA_FORCE SQL_IDS_DISTINTOS EJECUCIONES
+--------------------- ----------------- -----------
+ 14573098645096361820               750         750
+
+1 row selected.
+
+== 3 · El modelo de tiempo de la PDB: el análisis completo pesa en el DB time ==
+
+STAT_NAME                          SEGUNDOS
+-------------------------------- ----------
+DB time                              442.92
+parse time elapsed                     5.94
+hard parse elapsed time                5.17
+
+3 rows selected.
+
+-- Lectura: una firma con miles de SQL_ID ejecutados una vez = la aplicación no usa variables de enlace.

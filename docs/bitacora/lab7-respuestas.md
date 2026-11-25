@@ -30,11 +30,29 @@ Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T180330Z_C01_observar.txt
 
 ## Parte C · C03 · Literales y análisis completos
 1. Análisis completos y tiempo con literales, con variables de enlace y con CURSOR_SHARING = FORCE (tus cifras).
+
+Con literales: 5050 hard parses y 4190 ms para 5000 fichas. Con variables de enlace: 29 hard parses y 150 ms. Con CURSOR_SHARING = FORCE: 28 hard parses y 170 ms.
+Con variables va mucho más rápido y casi sin hard parses.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T182916Z_C03_solucionar.txt y docs/bitacora/lab7/evidencia/casos/20261125T182924Z_C03_observar.txt
+
 2. ¿Por qué FORCE es un puente y no la solución? ¿Qué ve el DBA en V$SQL que lo delata (FORCE_MATCHING_SIGNATURE)?
+
+Es un parche que cambia todos los literales.
+En V$SQL hay 750 SQL_ID distintos con la misma FORCE_MATCHING_SIGNATURE (14573098645096361820) y 750 ejecuciones: se ha ejecutado lo mismo 750 veces.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T182600Z_C03_diagnosticar.txt y docs/bitacora/lab7/evidencia/casos/20261125T182924Z_C03_observar.txt
 
 ## Parte C · C04 · El informe que se desborda a TEMP
 1. Bloques de TEMP, tipo de pasada y tiempo del informe antes y después. ¿Qué hacía el disparador de logon?
+
+Antes (informe heredado, política MANUAL): 5456 bloques escritos en TEMP (42,6 MB), 1 PASS y 2390 ms. Sin el disparador (AUTO, informe completo): 0 bloques, OPTIMAL y 750 ms. Con TOP 100 (AUTO): 0 bloques, OPTIMAL y 90 ms.
+El tiempo disminuye.
+El disparador de logon ponía la sesión en MANUAL y fijaba el área de sort, es decir, el tamaño (sort_area_size = 1048576, 1 MB), cuando la ordenación necesitaba 48 MB.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T183418Z_C04_diagnosticar.txt, docs/bitacora/lab7/evidencia/casos/20261125T183530Z_C04_solucionar.txt y docs/bitacora/lab7/evidencia/casos/20261125T183534Z_C04_validar.txt
+
 2. ¿Por qué el TOP 100 cabe en memoria y el informe completo no?
+
+Porque las filas son mínimas comparadas con el manual: el TOP 100 devuelve 100 filas y el informe completo ordena 1000000 (48 MB de área óptima frente a 0,0 MB del TOP 100).
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T183539Z_C04_observar.txt
 
 ## Parte D · C07 · EXPLAIN PLAN frente al plan real
 1. Copia el predicado que delata el problema en el plan real y explica de dónde sale.

@@ -91,3 +91,36 @@ concuerndan con las seisones. esta esperando al ser gratis solo nos permite 2 cp
 - **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas, no la base)
+
+## Entrada 5
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+P1 con variables va mucho mas rapido y casi sin hard parses
+P2a es un parche que cambia todos los literales
+no te he dicho como en el lab 6 quiero que me pongas tambien la evidencia
+me refiero la salida de la terminal donde buscar eso
+pues que se ha ejecutado lo mismo 750 veces
+el tiempo disminuye . porque las filas son minimas comparadas con el manual
+que estaba en manual y el area de sort es decir el tamaño
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```sql
+-- C03, a mano en la TERMINAL 2
+VARIABLE id NUMBER
+EXEC :id := 56881
+SELECT nombre, ciudad FROM t6.cliente WHERE id_cliente = :id;
+-- C04, a mano en la TERMINAL 2
+SELECT operation_type, last_execution,
+       ROUND(estimated_optimal_size/1048576) AS mb_optimo,
+       ROUND(last_memory_used/1024) AS kb_usados
+FROM v$sql_workarea
+WHERE operation_type LIKE 'SORT%' AND estimated_optimal_size > 10*1048576;
+SELECT owner, trigger_name, status FROM dba_triggers
+WHERE triggering_event LIKE 'LOGON%';
+-- y el comando awk que coloca mis respuestas de C03 y C04 en docs/bitacora/lab7-respuestas.md
+```
+- **Dónde lo usé (parte, script o pregunta):** Parte C, C03 y C04 (consultas a mano y respuestas en docs/bitacora/lab7-respuestas.md)
+- **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (consultas a mano en sqlplus; los mismos datos están en docs/bitacora/lab7/evidencia/casos/20261125T183418Z_C04_diagnosticar.txt)
