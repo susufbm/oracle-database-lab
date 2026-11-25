@@ -56,11 +56,28 @@ Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T183539Z_C04_observar.txt
 
 ## Parte D · C07 · EXPLAIN PLAN frente al plan real
 1. Copia el predicado que delata el problema en el plan real y explica de dónde sale.
+
+Predicado del plan real (SQL_ID 0dbx7196jdajy, TABLE ACCESS FULL, coste 1449): filter(TO_NUMBER("CODIGO_POSTAL")=:B1), con Peeked Binds :B1 (NUMBER): 30038.
+Sale de pasar el código postal a un número para compararlo con la variable: la columna CODIGO_POSTAL es VARCHAR2(5) y la V1 de la web mandaba un NUMBER.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T184153Z_C07_diagnosticar.txt
+
 2. Lecturas y p95 de V1 y V2. ¿Por qué EXPLAIN PLAN no lo vio?
+
+V1: 5227 lecturas por búsqueda y p95 de 67,9 ms. V2: 95 lecturas por búsqueda y p95 de 0,8 ms (INDEX RANGE SCAN sobre IX_T6_PED_CP).
+EXPLAIN PLAN no lo vio porque no mira el tipo: lo trata como texto.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T184148Z_C07_entender.txt y docs/bitacora/lab7/evidencia/casos/20261125T184302Z_C07_validar.txt
 
 ## Parte D · C08 · E-Rows frente a A-Rows
 1. Estimación y filas reales antes y después del grupo de columnas. ¿En qué línea del plan se separan por primera vez?
+
+Antes del grupo de columnas: la línea 3 (TABLE ACCESS BY INDEX ROWID BATCHED de CLIENTE, filtro COMUNIDAD = 'COM09') estimaba 3 filas y salieron 56; el resultado final estimaba 28 y salieron 599. Después: la línea 3 estima 50 (reales 56) y el resultado final 496 (reales 599).
+Se separan por primera vez en la línea 3.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T184744Z_C08_diagnosticar.txt, docs/bitacora/lab7/evidencia/casos/20261125T184856Z_C08_solucionar.txt y docs/bitacora/lab7/evidencia/casos/20261125T184901Z_C08_validar.txt
+
 2. ¿Por qué el optimizador multiplicaba mal las dos selectividades?
+
+Porque cada ciudad tiene una comunidad (MAX_COMUNIDADES_POR_CIUDAD = 1). El optimizador hacía 100000 × 1/2000 × 1/18 ≈ 2,9 clientes, y eran 56. El grupo de columnas SYS_STUBJHRJ63BYYQ61EBQAQU2TM_ ("CIUDAD","COMUNIDAD") tiene 2000 combinaciones distintas.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T184740Z_C08_entender.txt y docs/bitacora/lab7/evidencia/casos/20261125T184905Z_C08_observar.txt
 
 ## Parte E · C12 · Estadísticas obsoletas
 1. Filas según las estadísticas y reales; método de unión y lecturas antes y después.

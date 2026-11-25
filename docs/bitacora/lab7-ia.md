@@ -124,3 +124,17 @@ WHERE triggering_event LIKE 'LOGON%';
 - **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (consultas a mano en sqlplus; los mismos datos están en docs/bitacora/lab7/evidencia/casos/20261125T183418Z_C04_diagnosticar.txt)
+
+## Entrada 6
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+para pasar el codigo postal a un numero y asignarlo a una variable tiene 95 lecturas por bsuqeueda accede a esa variable tiene 0,8 ms frente al v1
+porque no mira el tipo lo trata como texto
+P1 en la línea 3, P2 porque cada ciudad tiene una comunidad
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** el comando awk que coloca mis respuestas de C07 y C08 en docs/bitacora/lab7-respuestas.md (las órdenes t6 top y t6 plan son del kit)
+- **Dónde lo usé (parte, script o pregunta):** Parte D, C07 y C08 (respuestas en docs/bitacora/lab7-respuestas.md)
+- **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas, no la base)
