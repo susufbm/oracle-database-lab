@@ -48,3 +48,94 @@ preguntamelo tu y lo escribes tu
 - **Propósito (para qué lo necesitaba):** Ese bloque hace que seas mi tutor de enseñanza para ayudarme a enseñarme los comandos, información y sobre el laboratorio.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Creó una rama diferente para hacer este laboratorio y crea una bitácora de IA del Lab 7.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (trabaja con GitHub y el repositorio, no con la base)
+
+## Entrada 3
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+17:39:40 E020 SYS@FREE> SELECT etiqueta, COUNT(*),
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY ms)
+FROM t6.app_log
+GROUP BY etiqueta;
+GROUP BY etiqueta
+         *
+ERROR at line 4:
+ORA-00904: "ETIQUETA": invalid identifier
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```sql
+SELECT etq, COUNT(*),
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY ms)
+FROM t6.app_log
+GROUP BY etq;
+```
+- **Dónde lo usé (parte, script o pregunta):** Parte B, C01 (fase entender, «Hazlo a mano» en la TERMINAL 2) y guía de las seis fases de C01
+- **Propósito (para qué lo necesitaba):** Te he usado porque había un error del profesor en el enunciado.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Había un fallo en el enunciado: etq es el nombre correcto de la columna y no etiqueta.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (consulta a mano en sqlplus; el mismo dato está en docs/bitacora/lab7/evidencia/casos/20261125T175646Z_C01_entender.txt)
+
+## Entrada 3
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+17:39:40 E020 SYS@FREE> SELECT etiqueta, COUNT(*),
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY ms)
+FROM t6.app_log
+GROUP BY etiqueta;
+GROUP BY etiqueta
+         *
+ERROR at line 4:
+ORA-00904: "ETIQUETA": invalid identifier
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```sql
+SELECT etq, COUNT(*),
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY ms)
+FROM t6.app_log
+GROUP BY etq;
+```
+- **Dónde lo usé (parte, script o pregunta):** Parte B, C01 (fase entender, «Hazlo a mano» en la TERMINAL 2) y guía de las seis fases de C01
+- **Propósito (para qué lo necesitaba):** Te he usado porque había un error del profesor en el enunciado.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Había un fallo en el enunciado: etq es el nombre correcto de la columna y no etiqueta.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (consulta a mano en sqlplus; el mismo dato está en docs/bitacora/lab7/evidencia/casos/20261125T175646Z_C01_entender.txt)
+
+## Entrada 3
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+17:39:40 E020 SYS@FREE> SELECT etiqueta, COUNT(*),
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY ms)
+FROM t6.app_log
+GROUP BY etiqueta;
+GROUP BY etiqueta
+         *
+ERROR at line 4:
+ORA-00904: "ETIQUETA": invalid identifier
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):**
+```sql
+SELECT etq, COUNT(*),
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY ms)
+FROM t6.app_log
+GROUP BY etq;
+```
+- **Dónde lo usé (parte, script o pregunta):** Parte B, C01 (fase entender, «Hazlo a mano» en la TERMINAL 2) y guía de las seis fases de C01
+- **Propósito (para qué lo necesitaba):** Te he usado porque había un error del profesor en el enunciado.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Había un fallo en el enunciado: etq es el nombre correcto de la columna y no etiqueta.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (consulta a mano en sqlplus; el mismo dato está en docs/bitacora/lab7/evidencia/casos/20261125T175646Z_C01_entender.txt)
+
+## Entrada 4
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+escribeme las respuesta tu como ya hemos dicho
+pero como que una pool
+pues un pool con 2 obviamente
+porque en eficiencia es el mejor y el que mejor concuerda en latencia y througput, las dos sesiones trabajan con las 2 cpus que e slo idela coinciden con el tiempo de espera
+concuerndan con las seisones. esta esperando al ser gratis solo nos permite 2 cpus que se reparten el trabajo con colas
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** archivo con mis respuestas de C01 copiadas tal cual (solo ortografía corregida, más mis cifras y la ruta de cada evidencia), y el comando awk que lo coloca en docs/bitacora/lab7-respuestas.md
+- **Dónde lo usé (parte, script o pregunta):** Parte B, respuestas 1 a 3 de C01 en docs/bitacora/lab7-respuestas.md
+- **Propósito (para qué lo necesitaba):** 
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** 
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas, no la base)

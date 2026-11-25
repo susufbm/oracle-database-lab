@@ -11,8 +11,22 @@ CÓMO SE RELLENA
 
 ## Parte B · C01 · Más sesiones no es más rendimiento
 1. ¿Cuántas llamadas por segundo y qué p95 tuviste con 1, 2 y 8 sesiones? ¿Qué número de sesiones recomiendas y por qué?
+
+Con 1 sesión: 7,5 llamadas/s y p95 de 140 ms. Con 2 sesiones: 12,6 llamadas/s y p95 de 192 ms. Con 8 sesiones: 14,7 llamadas/s y p95 de 1035 ms.
+Recomiendo un pool con 2 sesiones, porque en eficiencia es el mejor y el que mejor concuerda en latencia y throughput: las dos sesiones trabajan con las 2 CPU, que es lo ideal.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T175646Z_C01_entender.txt (1 y 8 sesiones) y docs/bitacora/lab7/evidencia/casos/20261125T180152Z_C01_validar.txt (2 sesiones).
+
 2. ¿Qué evento domina con 8 sesiones y qué significa en Oracle Free?
+
+Domina resmgr:cpu quantum: 236 de 321 muestras (73,5 %), con AAS 7,8 y CPU_COUNT 2.
+La sesión está esperando: al ser gratis, Oracle Free solo nos permite 2 CPU, que se reparten el trabajo con colas.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T175935Z_C01_diagnosticar.txt
+
 3. Comprueba la ley de Little (N = X · R) con tus tres medidas.
+
+1 sesión: 7,5 × 0,1298 s = 0,97 ≈ 1. 2 sesiones: 12,6 × 0,1567 s = 1,97 ≈ 2. 8 sesiones: 14,7 × 0,5354 s = 7,87 ≈ 7,9.
+Concuerdan con las sesiones.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T180330Z_C01_observar.txt
 
 ## Parte C · C03 · Literales y análisis completos
 1. Análisis completos y tiempo con literales, con variables de enlace y con CURSOR_SHARING = FORCE (tus cifras).

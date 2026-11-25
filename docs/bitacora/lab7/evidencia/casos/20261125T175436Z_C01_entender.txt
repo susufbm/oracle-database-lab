@@ -1,0 +1,18 @@
+== EVIDENCIA alumno=E020 hora=2026-11-25T17:54:36Z origen=t6/C01_entender
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-25T17:35:49 scn=6425067
+
+SYS@FREE> ALTER SESSION SET CONTAINER = FREEPDB1;
+
+Session altered.
+
+SYS@FREE> SET ECHO OFF
+== El SLI de la web, por tanda ==
+
+ETQ          SESIONES   LLAMADAS LLAMADAS_SEG   MS_P50   MS_P95
+---------- ---------- ---------- ------------ -------- --------
+C01_N1              1        154          7.5    128.2    140.2
+C01_N8              8        606         14.7    436.6   1035.2
+
+2 rows selected.
+
+-- Lectura: con 8 veces más sesiones, ¿se atienden 8 veces más llamadas por segundo? ¿Qué le pasa a la latencia?
