@@ -1,0 +1,21 @@
+== EVIDENCIA alumno=E020 hora=2026-11-26T16:29:01Z origen=t6/salud
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-26T16:28:44 scn=8475000
+== 1 · Carga frente a capacidad: AAS por minuto (V$CON_SYSMETRIC_HISTORY) y CPU_COUNT ==
+== 2 · En qué se va el tiempo (ASH, muestras de 1 s de sesiones activas de esta PDB) ==
+
+WAIT_CLASS     EVENTO                                     MUESTRAS    PCT
+-------------- ---------------------------------------- ---------- ------
+Scheduler      resmgr:cpu quantum                                2   66.7
+CPU            ON CPU                                            1   33.3
+== 3 · Quién lo consume: SQL_ID y módulo con más muestras ==
+
+SQL_ID        MODULE           ACTION           MUESTRAS    PCT TEXTO
+------------- ---------------- -------------- ---------- ------ --------------------------------------------
+836b98xx998x3 MMON_SLAVE       Check SMB Size          1   33.3 SELECT sum(bytes)  FROM dba_data_files  WHER
+1h50ks4ncswfn sqlplus@e93aa02e                         1   33.3
+              2502 (TNS V1-V3)
+
+2a7ahwa7bsj0n MMON_SLAVE       Purge Expired           1   33.3 SELECT /*+ USE_HASH(o a) */ O.NAME FROM SYS.
+                               Plan Baselines
+
+-- Siguiente paso: con el SQL_ID de arriba, «t6 plan SQL_ID» (playbook PB-2). Con esperas de una sola clase, PB-1 rama 2.

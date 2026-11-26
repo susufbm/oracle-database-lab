@@ -124,11 +124,30 @@ Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104942Z_C14_observar.txt
 
 ## Parte F · C17 · INC-604 con AWR, ASH y ADDM
 1. SLI y SLO; p95 antes y después; instantáneas AWR que usaste.
+
+SLI: p95 de la búsqueda por código postal (T6.APP_LOG). SLO: p95 < 20 ms. Antes (V1): p95 de 81,9 ms, INCUMPLE. Después (V2): p95 de 0,36 ms. Instantáneas AWR del intervalo de la V1: 24 (10:58:40) y 25 (11:00:43).
+Sí, se ha resuelto: la p95 baja de 81,9 a 0,36 ms. Con la misma carga (3 sesiones, 120 s) se atienden 33090 búsquedas frente a 3825.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T110949Z_C17_entender.txt y docs/bitacora/lab7/evidencia/casos/20261126T111211Z_C17_validar.txt
+
 2. ¿Qué dijeron ASH, AWR y ADDM, y qué no podían decirte? ¿Cuál fue el ÚNICO cambio?
+
+ASH me dijo 98 muestras ON CPU y 11 de espera de CPU (resmgr:cpu quantum) del SQL_ID 0dbx7196jdajy. AWR: 3794 ejecuciones, 255 s y 5258 lecturas por ejecución. ADDM: el 96,3 % de la actividad, y recomienda pasar el SQL Tuning Advisor.
+No podían decirme el tipo de dato: solo lo revela el plan real (TABLE ACCESS FULL, plan 2571571058, sacado de AWR). El bloque 4 de diagnosticar no salió porque el cursor ya no estaba en memoria.
+El único cambio: desplegar la V2 con el tipo VARCHAR2 (APP.BUSCAR_CP_V2, argumento P_CP VARCHAR2), que usa el índice IX_T6_PED_CP y hace 97 lecturas por ejecución frente a 5258.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T110956Z_C17_diagnosticar.txt, docs/bitacora/lab7/evidencia/casos/20261126T110959Z_C17_solucionar.txt y docs/bitacora/lab7/evidencia/casos/20261126T111400Z_C17_observar.txt
 
 ## Parte F · C18 · SQL Plan Management
 1. PLAN_HASH_VALUE y lecturas del lunes, del martes y con la línea base.
+
+Mismo SQL_ID 8hn59jfgw00y7. Lunes (con histograma en ESTADO): plan 1767728868 (INDEX RANGE SCAN de IX_T6_PED_ESTADO), 211 lecturas por ejecución y 3,5 ms. Martes (sin histograma): plan 2571571058 (TABLE ACCESS FULL), 5227 lecturas y 13 ms. Con la línea base SQL_PLAN_0a27u7nan424ba00b9863 (MANUAL-LOAD-FROM-AWR, snapshots 32 a 33): plan 1767728868, 190 lecturas y 7,7 ms.
+Recupera el plan del lunes y lee menos.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T162937Z_C18_provocar.txt, docs/bitacora/lab7/evidencia/casos/20261126T163008Z_C18_solucionar.txt y docs/bitacora/lab7/evidencia/casos/20261126T163017Z_C18_validar.txt
+
 2. ¿Qué hizo la evolución con el plan nuevo y por qué? ¿Qué queda pendiente para que no vuelva a pasar?
+
+El optimizador quería el plan del martes y lo guardó con ACC = NO (SQL_PLAN_0a27u7nan424b95a18d93, AUTO-CAPTURE). La evolución ejecutó los dos planes y los comparó: «failed the benefit criterion», el plan nuevo era peor, así que sigue sin aceptarse.
+La causa sigue ahí: METHOD_OPT = FOR ALL COLUMNS SIZE 1 en PEDIDO, que recoge sin histograma.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T163003Z_C18_diagnosticar.txt y docs/bitacora/lab7/evidencia/casos/20261126T163022Z_C18_observar.txt
 
 ## Parte G · Incidente 1 · INC-6NN
 - **Síntoma (con números):**

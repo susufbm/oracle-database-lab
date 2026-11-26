@@ -157,3 +157,19 @@ P2 que aunque sea invisible se mantiene igual
 - **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas, no la base)
+
+## Entrada 8
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+P1 sí, la p95 baja de 81,9 a 0,36 ms
+ash me dijo 90 on cpu y 11 de espera en cpu awr 3794 ejeccuoines 255 s y 5258 lecturas, addm 96,3 de la actividad pasar por sql turnin advisor no podian decirme el tiupo de dato solo revela el plan real el blque 4 no salio por ya no estaba en memroia. desplegar v2 con el tipo varchar
+hubo un paron abrupto porque apague el pc
+P1 recupera el plan del lunes y lee menos
+la evolución en observar el optimizador queria el plan del martes lo guardo con acc = no. ejecuto dos planes y los comparo. la causa sigue ahi metho_opt = for all columns size 1
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** comandos para volver a arrancar tras el apagado (docker start oralab-26ai, docker ps, git status --short, ls de las evidencias) y el comando awk que coloca mis respuestas de C17 y C18 en docs/bitacora/lab7-respuestas.md (las órdenes caso y t6 son del kit)
+- **Dónde lo usé (parte, script o pregunta):** Parte F, C17 y C18 (respuestas en docs/bitacora/lab7-respuestas.md) y el arranque tras el apagado
+- **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas y comprueba el entorno, no cambia la base)
