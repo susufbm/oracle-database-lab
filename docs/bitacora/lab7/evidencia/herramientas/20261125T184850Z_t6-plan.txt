@@ -1,0 +1,44 @@
+== EVIDENCIA alumno=E020 hora=2026-11-25T18:48:50Z origen=t6/plan
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-25T17:35:49 scn=6433329
+== 1 · Hijos del cursor ac0qt2316arau ==
+
+      HIJO  PLAN_HASH       EJEC    MS_EJEC  GETS_EJEC BSEN BAWR
+---------- ---------- ---------- ---------- ---------- ---- ----
+BASELINE
+--------------------------------------------------------------------------------------------------------------------------------
+         0 2405883318          1       27.0       1017 N    N
+
+== 2 · Plan real (ALLSTATS LAST) con predicados y variables de enlace observadas ==
+
+PLAN_TABLE_OUTPUT
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL_ID  ac0qt2316arau, child number 0
+-------------------------------------
+SELECT /*+ GATHER_PLAN_STATISTICS t6_c08_antes */ c.id_cliente,
+c.nombre, p.id_pedido, p.importe   FROM t6.cliente c JOIN t6.pedido p
+ON p.id_cliente = c.id_cliente  WHERE c.ciudad = 'Ciudad0042' AND
+c.comunidad = 'COM09'
+
+Plan hash value: 2405883318
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                             | Name              | Starts | E-Rows | Cost (%CPU)| A-Rows |   A-Time   | Buffers | Reads  |
+-------------------------------------------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                      |                   |      1 |        |    87 (100)|    599 |00:00:00.01 |     850 |      2 |
+|   1 |  NESTED LOOPS                         |                   |      1 |     28 |    87   (0)|    599 |00:00:00.01 |     850 |      2 |
+|   2 |   NESTED LOOPS                        |                   |      1 |     30 |    87   (0)|    599 |00:00:00.01 |     252 |      2 |
+|*  3 |    TABLE ACCESS BY INDEX ROWID BATCHED| CLIENTE           |      1 |      3 |    51   (0)|     56 |00:00:00.01 |      58 |      0 |
+|*  4 |     INDEX RANGE SCAN                  | IX_T6_CLI_CIUDAD  |      1 |     50 |     1   (0)|     56 |00:00:00.01 |       2 |      0 |
+|*  5 |    INDEX RANGE SCAN                   | IX_T6_PED_CLIENTE |     56 |     10 |     2   (0)|    599 |00:00:00.01 |     194 |      2 |
+|   6 |   TABLE ACCESS BY INDEX ROWID         | PEDIDO            |    599 |     10 |    12   (0)|    599 |00:00:00.01 |     598 |      0 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   3 - filter("C"."COMUNIDAD"='COM09')
+   4 - access("C"."CIUDAD"='Ciudad0042')
+   5 - access("P"."ID_CLIENTE"="C"."ID_CLIENTE")
+
+== 3 · Historia del plan en AWR (si la sentencia llegó a una instantánea) ==
+-- ¿Dos plan_hash distintos para el mismo SQL_ID? El plan ha cambiado: playbook PB-3.

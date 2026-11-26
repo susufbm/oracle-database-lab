@@ -1,0 +1,12 @@
+== EVIDENCIA alumno=E020 hora=2026-11-26T17:30:44Z origen=t6/top
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-26T16:28:44 scn=8487137
+== Top 5 sentencias por elapsed (filtro: -) ==
+
+SQL_ID         PLAN_HASH       EJEC SEG_TOTAL    MS_EJEC  GETS_EJEC FILAS_EJEC TEXTO
+------------- ---------- ---------- --------- ---------- ---------- ---------- ------------------------------------------
+2sxqgx5hx76qr 3312420081       6519       0.6        0.1          3         16 select /*+ rule */ bucket, endpoint, col#,
+53mx77snb43uw 2571571058         20       0.5       26.1       5961          1 SELECT /*+ t6_cp_v2 */ COUNT(*), SUM(IMPOR
+dsdungnrhx8zq          0          2       0.1       72.5        819          1  begin sys.dbms_aqadm_sys.remove_all_nondu
+3un99a0zwp4vd 3868747649         68       0.1        1.8        650          5 select owner#,name,namespace,remoteowner,l
+cq8s0cpgt7xn9 3508032529          3       0.1       37.2       1119          0 SELECT xs.sid FROM sys.rxs$sessions xs WHE
+-- Siguiente paso: «t6 plan SQL_ID» para ver el plan real de la que más pesa.

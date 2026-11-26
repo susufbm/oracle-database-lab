@@ -1,0 +1,7 @@
+== EVIDENCIA alumno=E020 hora=2026-11-26T16:39:06Z origen=t6/INC-606_romper
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-26T16:28:44 scn=8478839
+== INC-606 · romper · alumno E020 · semilla 20
+
+Session altered.
+
+Roto: la búsqueda por código postal (versión V2, la buena) ya no va como ayer.

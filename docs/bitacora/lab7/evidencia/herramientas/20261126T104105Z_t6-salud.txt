@@ -1,0 +1,27 @@
+== EVIDENCIA alumno=E020 hora=2026-11-26T10:41:05Z origen=t6/salud
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-26T10:40:53 scn=7437101
+== 1 · Carga frente a capacidad: AAS por minuto (V$CON_SYSMETRIC_HISTORY) y CPU_COUNT ==
+== 2 · En qué se va el tiempo (ASH, muestras de 1 s de sesiones activas de esta PDB) ==
+
+WAIT_CLASS     EVENTO                                     MUESTRAS    PCT
+-------------- ---------------------------------------- ---------- ------
+CPU            ON CPU                                            3   60.0
+User I/O       db file sequential read                           1   20.0
+User I/O       db file scattered read                            1   20.0
+== 3 · Quién lo consume: SQL_ID y módulo con más muestras ==
+
+SQL_ID        MODULE           ACTION           MUESTRAS    PCT TEXTO
+------------- ---------------- -------------- ---------- ------ --------------------------------------------
+1wvn5y5175ssb DBMS_SCHEDULER   CLEANUP_TOBE_D          2   40.0 select /*PDBTASK DIX:get_tobe_dropped*/
+                               ROPPED_IDX
+
+dhx4hx5kz79bf DBMS_SCHEDULER   CLEANUP_NON_EX          1   20.0 delete from javaobj$ where obj#=:1
+                               IST_OBJ
+
+1h50ks4ncswfn sqlplus@e93aa02e                         1   20.0
+              2502 (TNS V1-V3)
+
+f3ww8rgva3hrs MMON_SLAVE       Flush KSXM has          1   20.0 update /* KSXM:FLUSH COL */ sys.col_usage$ s
+                               h table action
+
+-- Siguiente paso: con el SQL_ID de arriba, «t6 plan SQL_ID» (playbook PB-2). Con esperas de una sola clase, PB-1 rama 2.

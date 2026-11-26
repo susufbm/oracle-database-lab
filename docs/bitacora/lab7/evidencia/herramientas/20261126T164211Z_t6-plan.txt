@@ -1,0 +1,11 @@
+== EVIDENCIA alumno=E020 hora=2026-11-26T16:42:11Z origen=t6/plan
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-26T16:28:44 scn=8480083
+== 1 · Hijos del cursor SQL_ID_DE_ARRIBA ==
+== 2 · Plan real (ALLSTATS LAST) con predicados y variables de enlace observadas ==
+
+PLAN_TABLE_OUTPUT
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL_ID: SQL_ID_DE_ARRIBA cannot be found
+
+== 3 · Historia del plan en AWR (si la sentencia llegó a una instantánea) ==
+-- ¿Dos plan_hash distintos para el mismo SQL_ID? El plan ha cambiado: playbook PB-3.

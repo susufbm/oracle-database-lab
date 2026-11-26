@@ -1,0 +1,38 @@
+== EVIDENCIA alumno=E020 hora=2026-11-25T18:52:26Z origen=t6/estad
+== EVIDENCIA contenedor=e93aa02e2502 dbid=1509902213 arranque=2026-11-25T17:35:49 scn=6434713
+== 1 · Estadísticas de la tabla T6.CARRITO ==
+
+TABLE_NAME           NUM_ROWS     BLOCKS AVG_ROW_LEN LAST_ANALYZED       STALE LOCKED
+------------------ ---------- ---------- ----------- ------------------- ----- ------
+CARRITO                200100        748          18 2026-11-25 18:52:12 NO
+== 2 · Cambios desde la última recogida (DBA_TAB_MODIFICATIONS; obsoleta si pasan del 10 %) ==
+== 3 · Columnas: lo que sabe el optimizador de cada una ==
+
+COLUMN_NAME                    NUM_DISTINCT  NUM_NULLS   DENSITY    BUCKETS HISTOGRAM       LAST_ANALYZED
+------------------------------ ------------ ---------- --------- ---------- --------------- -------------------
+ID_CLIENTE                            87520          0  0.000011          1 NONE            2026-11-25 18:52:12
+ID_PEDIDO                            200100          0  0.000005          1 NONE            2026-11-25 18:52:12
+TS                                        1          0  1.000000          1 NONE            2026-11-25 18:52:12
+== 4 · Extensiones (grupos de columnas y expresiones) ==
+== 5 · Estadísticas PENDIENTES (recogidas con PUBLISH = FALSE, aún sin publicar) ==
+== 6 · Historial: versiones anteriores que se pueden restaurar ==
+
+CUANDO
+-------------------
+2026-11-25 18:52:13
+2026-11-25 18:51:59
+== 7 · Preferencias que usará la próxima recogida ==
+
+PREFERENCIA
+-------------
+VALOR
+----------------------------------------------------------------------------------------------------------------------------------
+PUBLISH
+TRUE
+
+METHOD_OPT
+FOR ALL COLUMNS SIZE AUTO
+
+STALE_PERCENT
+10
+
