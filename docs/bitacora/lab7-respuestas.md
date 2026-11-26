@@ -149,29 +149,41 @@ El optimizador quería el plan del martes y lo guardó con ACC = NO (SQL_PLAN_0a
 La causa sigue ahí: METHOD_OPT = FOR ALL COLUMNS SIZE 1 en PEDIDO, que recoge sin histograma.
 Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T163003Z_C18_diagnosticar.txt y docs/bitacora/lab7/evidencia/casos/20261126T163022Z_C18_observar.txt
 
-## Parte G · Incidente 1 · INC-6NN
-- **Síntoma (con números):**
-- **Playbook y pasos seguidos (herramientas y vistas):**
-- **Causa raíz:**
-- **Arreglo aplicado (órdenes exactas) y por qué ese:**
-- **Verificación (archivo de evidencia con todo OK):**
-- **Prevención (qué evitaría que se repita):**
+## Parte G · Incidente 1 · INC-606
+- **Síntoma (con números):** La búsqueda por código postal va lenta: 5310 lecturas por búsqueda.
+  Evidencia: docs/bitacora/lab7/evidencia/incidentes/20261126T163906Z_INC-606_romper.txt
+- **Playbook y pasos seguidos (herramientas y vistas):** Empiezo por el playbook PB-2 y el runbook RB-3 (índices con red). El verificar da FALLO: IX_T6_PED_CP UNUSABLE y VISIBLE, 5310 lecturas por búsqueda.
+  Evidencia: docs/bitacora/lab7/evidencia/incidentes/20261126T164026Z_INC-606_verificar.txt
+- **Causa raíz:** El índice IX_T6_PED_CP estaba UNUSABLE (aunque VISIBLE), así que la búsqueda hacía TABLE ACCESS FULL.
+- **Arreglo aplicado (órdenes exactas) y por qué ese:** `ALTER INDEX t6.ix_t6_ped_cp REBUILD ONLINE;` Rebuild online porque necesitamos que esté activo.
+  Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T164356Z_C17_solucionar.txt
+- **Verificación (archivo de evidencia con todo OK):** Cambia el plan (hash 2571571058 → 2982358210) de TABLE ACCESS FULL a INDEX RANGE SCAN después del rebuild. Después, VALID y VISIBLE: vuelve a usar IX_T6_PED_CP y ahora son 95 lecturas por búsqueda.
+  Evidencia: docs/bitacora/lab7/evidencia/incidentes/20261126T164403Z_INC-606_verificar.txt
+- **Prevención (qué evitaría que se repita):** Hacer un SELECT a DBA_INDEXES donde el dueño sea T6 y mirar que el STATUS sea VALID y VISIBLE.
 
-## Parte G · Incidente 2 · INC-6NN
-- **Síntoma (con números):**
-- **Playbook y pasos seguidos (herramientas y vistas):**
-- **Causa raíz:**
-- **Arreglo aplicado (órdenes exactas) y por qué ese:**
-- **Verificación (archivo de evidencia con todo OK):**
-- **Prevención (qué evitaría que se repita):**
+## Parte G · Incidente 2 · INC-608
+- **Síntoma (con números):** En el incidente INC-608 el informe de estado = P estimaba 250000 filas cuando las reales eran 20000.
+  Evidencia: docs/bitacora/lab7/evidencia/incidentes/20261126T170013Z_INC-608_romper.txt y docs/bitacora/lab7/evidencia/incidentes/20261126T170022Z_INC-608_verificar.txt
+- **Playbook y pasos seguidos (herramientas y vistas):** Playbook PB-3 y runbook RB-2. Lo miré con incidente y t6 estad PEDIDO en las evidencias del lab.
+  Evidencia: docs/bitacora/lab7/evidencia/herramientas/20261126T170123Z_t6-estad.txt
+- **Causa raíz:** La causa fue tener METHOD_OPT en SIZE 1, lo que quitó el histograma de ESTADO (NONE) y hacía que estimara 250000 filas para 'P'.
+- **Arreglo aplicado (órdenes exactas) y por qué ese:** Primero puse SIZE AUTO con SET_TABLE_PREFS y luego recogí estadísticas con GATHER_TABLE_STATS y no_invalidate => FALSE, porque si recoges antes te lo vuelve a dejar sin histograma y hay que tirar el plan viejo.
+  `EXEC DBMS_STATS.SET_TABLE_PREFS('T6','PEDIDO','METHOD_OPT','FOR ALL COLUMNS SIZE AUTO');`
+  `EXEC DBMS_STATS.GATHER_TABLE_STATS('T6','PEDIDO', no_invalidate => FALSE);`
+- **Verificación (archivo de evidencia con todo OK):** En la verificación ya salió todo OK, con 20000 filas estimadas (20000 reales) y histograma FREQUENCY de 4 cajones.
+  Evidencia: docs/bitacora/lab7/evidencia/incidentes/20261126T171307Z_INC-608_verificar.txt
+- **Prevención (qué evitaría que se repita):** Para que no vuelva a pasar, revisaré el bloque 7 de t6 estad para ver que METHOD_OPT sigue en SIZE AUTO.
 
-## Parte G · Incidente 3 · INC-6NN
-- **Síntoma (con números):**
-- **Playbook y pasos seguidos (herramientas y vistas):**
-- **Causa raíz:**
-- **Arreglo aplicado (órdenes exactas) y por qué ese:**
-- **Verificación (archivo de evidencia con todo OK):**
-- **Prevención (qué evitaría que se repita):**
+## Parte G · Incidente 3 · INC-610
+- **Síntoma (con números):** Varias consultas de la aplicación se degradaron a la vez subiendo los buffer gets y el tiempo por ejecución al descartar los índices. La V2 de la búsqueda (53mx77snb43uw) usaba el plan 2571571058 (FULL) con 5961 lecturas y 26,1 ms por ejecución; optimizer_index_cost_adj = 6000 en FREEPDB1 (por defecto, 100).
+  Evidencia: docs/bitacora/lab7/evidencia/incidentes/20261126T172055Z_INC-610_romper.txt y docs/bitacora/lab7/evidencia/incidentes/20261126T172103Z_INC-610_verificar.txt
+- **Playbook y pasos seguidos (herramientas y vistas):** Playbook PB-3. Lo diagnostiqué mirando las sentencias pesadas con t6 top y revisando los parámetros del optimizador en v$system_parameter dentro de FREEPDB1.
+  Evidencia: docs/bitacora/lab7/evidencia/herramientas/20261126T173044Z_t6-top.txt
+- **Causa raíz:** Fallan muchas consultas a la vez porque optimizer_index_cost_adj es un parámetro global que encarece el uso de cualquier índice en toda la base de datos y hace que el optimizador los descarte en favor de lecturas completas.
+- **Arreglo aplicado (órdenes exactas) y por qué ese:** `ALTER SYSTEM RESET optimizer_index_cost_adj SCOPE = BOTH;` (en FREEPDB1). Si lo cambias solo en la sesión solo te afecta mientras sigas conectado y el resto sigue fallando, y si lo cambias solo en memoria se arregla temporalmente pero al reiniciar la base volverá al valor malo al no estar guardado en el SPFILE.
+- **Verificación (archivo de evidencia con todo OK):** Al hacer RESET del parámetro optimizer_index_cost_adj en el SPFILE y reiniciarlo en memoria, el valor volvió al defecto (100) sin dejar nada guardado en el SPFILE, y la consulta V2 volvió a usar el índice IX_T6_PED_CP bajando de las 5961 lecturas por ejecución del plan FULL (2571571058).
+  Evidencia: docs/bitacora/lab7/evidencia/incidentes/20261126T173115Z_INC-610_verificar.txt
+- **Prevención (qué evitaría que se repita):** Para que no vuelva a pasar sin enterarme, restringiría los permisos de ALTER SYSTEM a usuarios externos, activaría auditoría sobre cambios de parámetros del sistema y comprobaría directamente los valores de parámetros críticos del optimizador en v$system_parameter (sin fiarme solo de ISDEFAULT).
 
 ## Parte H · Reflexión
 1. De todo el laboratorio, ¿qué cambio dio más mejora por menos riesgo? Justifícalo con tus números.

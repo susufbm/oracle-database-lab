@@ -173,3 +173,30 @@ la evolución en observar el optimizador queria el plan del martes lo guardo con
 - **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas y comprueba el entorno, no cambia la base)
+
+## Entrada 9
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+rebuild, ALTER INDEX t6.ix_t6_ped_cp REBUILD
+como entro en sqlplus freepdb1
+lo lance con online, ALTER INDEX t6.ix_t6_ped_cp REBUILD ONLINE
+ponme las evidencias
+1. búsqueda por código postal. VA lento empiezo por playbook pb-2 y runbook rb-3 indices con red. unusabel y visible fallo lectyras por bsuqeuda 5310. cambua el hash de table acces full a index range scan despues del rebuild. ALTER INDEX t6.ix_t6_ped_cp REBUILD ONLINE el arrgelo despues valid y visible vuelve a usar IX_t6_PEd_CP ahora so 95 lecturas por busqueda
+miraria la vista de index range scan y rebuild online porque necesitamos que este activo
+IX_T6_PED_CP
+select dba_indexes donde el dueño sea t6 el status valid visible
+a) la causa raiz viene bloque 3 (ESTADO con 4 valores distintos, DENSITY 0.25, NONE), el bloque 6 (recogida a las 17:00:11) y el bloque 7 (METHOD_OPT = FOR ALL COLUMNS SIZE 1).
+publish true method opt for all columns size 1 stale percent 10. cambio el numero distintos, la densidad. cree que tiene 4 filas no?
+set table prefs y luego gather table stats
+En el incidente INC-608 el informe de estado = P estimaba 250000 filas cuando las reales eran 20000. Lo miré con incidente y t6 estad PEDIDO en las evidencias del lab. La causa fue tener METHOD_OPT en SIZE 1, lo que quitó el histograma de ESTADO (NONE) y hacía que estimara 250000 filas para 'P'. Primero puse SIZE AUTO con SET_TABLE_PREFS y luego recogí estadísticas con GATHER_TABLE_STATS y no_invalidate => FALSE, porque si recoges antes te lo vuelve a dejar sin histograma y hay que tirar el plan viejo. En la verificación ya salió todo OK, con 20000 filas estimadas (20000 reales) y histograma FREQUENCY de 4 cajones. Para que no vuelva a pasar, revisaré el bloque 7 de t6 estad para ver que METHOD_OPT sigue en SIZE AUTO, junto con el último archivo de t6-estad que saque con ls -t
+pero sacamelos aqui
+Fallan muchas consultas a la vez porque optimizer_index_cost_adj es un parámetro global que encarece el uso de cualquier índice en toda la base de datos y hace que el optimizador los descarte en favor de lecturas completas. Si lo cambias solo en la  sesión solo te afecta mientras sigas conectado y el resto sigue fallando, y si lo cambias solo en memoria se arregla temporalmente pero al reiniciar la base volverá al valor malo al no estar guardado en el SPFILE.
+1. Varias consultas de la aplicación se degradaron a la vez subiendo los buffer gets y el tiempo por ejecución al descartar los índices.2. Lo diagnostiqué mirando las sentencias pesadas con t6 top y t6 plan y revisando los parámetros del optimizador en v$system_parameter dentro de FREEPDB1.
+3. Verificación: Al hacer RESET del parámetro optimizer_index_cost_adj en el SPFILE y reiniciarlo en memoria, el valor volvió al defecto (100) sin dejar nada guardado en el SPFILE, y la consulta V2 volvió a usar el índice IX_T6_PED_CP bajando de las 5961 lecturas por ejecución del plan FULL (2571571058). 4. Prevención: Para que no vuelva a pasar sin enterarme, restringiría los permisos de ALTER SYSTEM a usuarios externos, activaría auditoría sobre cambios de parámetros del sistema y comprobaría directamente los valores de parámetros críticos del optimizador en v$system_parameter (sin fiarme solo de ISDEFAULT).
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** las órdenes de arreglo `DBMS_STATS.SET_TABLE_PREFS('T6','PEDIDO','METHOD_OPT','FOR ALL COLUMNS SIZE AUTO')`, `DBMS_STATS.GATHER_TABLE_STATS('T6','PEDIDO', no_invalidate => FALSE)` y `ALTER SYSTEM RESET optimizer_index_cost_adj SCOPE = BOTH`, la consulta a v$system_parameter, y los comandos awk que colocan mis postmortems en docs/bitacora/lab7-respuestas.md (las órdenes incidente y t6 son del kit; el REBUILD ONLINE de INC-606 lo elegí yo)
+- **Dónde lo usé (parte, script o pregunta):** Parte G, incidentes INC-606, INC-608 e INC-610 (postmortems en docs/bitacora/lab7-respuestas.md)
+- **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora. SET_TABLE_PREFS cambia la preferencia METHOD_OPT a SIZE AUTO, GATHER_TABLE_STATS recoge las estadísticas de nuevo y tira el plan viejo, y el RESET quita el valor del parámetro de memoria y del SPFILE para que vuelva al de por defecto.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** docs/bitacora/lab7/evidencia/incidentes/20261126T171307Z_INC-608_verificar.txt y docs/bitacora/lab7/evidencia/incidentes/20261126T173115Z_INC-610_verificar.txt
