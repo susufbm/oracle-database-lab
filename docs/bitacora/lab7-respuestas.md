@@ -81,15 +81,46 @@ Evidencia: docs/bitacora/lab7/evidencia/casos/20261125T184740Z_C08_entender.txt 
 
 ## Parte E · C12 · Estadísticas obsoletas
 1. Filas según las estadísticas y reales; método de unión y lecturas antes y después.
+
+Antes: CARRITO tenía 100 filas según las estadísticas y 200100 reales (200000 inserciones, STALE = YES); el informe usaba NESTED LOOPS (E-Rows 100, A-Rows 200K en CARRITO) con 212299 lecturas lógicas. Después de recoger solo CARRITO: 200100 filas en las estadísticas (STALE = NO), HASH JOIN y 5907 lecturas lógicas.
+Con estadísticas al día usa HASH JOIN y lee menos.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104143Z_C12_entender.txt, docs/bitacora/lab7/evidencia/casos/20261126T104159Z_C12_diagnosticar.txt y docs/bitacora/lab7/evidencia/casos/20261126T104214Z_C12_validar.txt
+
 2. ¿Por qué la tarea automática no lo habría arreglado a tiempo? ¿Quién debe recoger y cuándo?
+
+Porque solo trabaja en su ventana de mantenimiento (THURSDAY_WINDOW a las 22:00, 4 horas) y no entra a tiempo.
+Debe recoger el propio proceso de carga, al terminar, con GATHER_TABLE_STATS (runbook RB-2).
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104220Z_C12_observar.txt y docs/bitacora/lab7/evidencia/casos/20261126T104206Z_C12_solucionar.txt
 
 ## Parte E · C13 · El ciclo de estadísticas con red
 1. Describe el ciclo que seguiste (pendientes, probar, publicar, restaurar, bloquear) con la vista que comprueba cada paso.
+
+Antes: 135277 pedidos pasaron a 'E', STALE = YES y ESTADO sin histograma; el optimizador estimaba 250000 y eran 185277.
+- Pendientes: SET_TABLE_PREFS PUBLISH = FALSE y GATHER_TABLE_STATS; se comprueba en DBA_TAB_PENDING_STATS.
+- Probar: optimizer_use_pending_statistics = TRUE solo en mi sesión y EXPLAIN PLAN; PLAN_TABLE estima 185277.
+- Publicar: PUBLISH_PENDING_STATS y PUBLISH vuelve a TRUE; DBA_TAB_STATISTICS con STALE = NO y DBA_TAB_COL_STATISTICS con histograma FREQUENCY en ESTADO.
+- Restaurar: RESTORE_TABLE_STATS a hace 60 segundos; DBA_TAB_STATS_HISTORY (31 días de retención) y ESTADO vuelve a HISTOGRAM = NONE.
+- Bloquear: LOCK_TABLE_STATS; DBA_TAB_STATISTICS.STATTYPE_LOCKED = ALL.
+Sirve para probar antes sin afectar a nadie.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104653Z_C13_diagnosticar.txt, docs/bitacora/lab7/evidencia/casos/20261126T104705Z_C13_solucionar.txt, docs/bitacora/lab7/evidencia/casos/20261126T104708Z_C13_validar.txt y docs/bitacora/lab7/evidencia/casos/20261126T104716Z_C13_observar.txt
+
 2. ¿Qué error obtuviste al recoger sobre estadísticas bloqueadas y cómo se recoge si de verdad hace falta?
+
+Me salió ORA-20005: object statistics are locked (stattype = ALL). Si de verdad hace falta, se recoge con force => TRUE.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104716Z_C13_observar.txt
 
 ## Parte E · C14 · El índice invisible
 1. Lecturas por apertura del panel antes y después. ¿Cómo probaste el índice sin que lo viera nadie más?
+
+Antes: 5265 lecturas lógicas y 16,8 ms por apertura (TABLE ACCESS FULL) para mostrar 2056 pedidos de 1000000. Después, con IX_T6_C14_PEND (ESTADO, CANAL, FECHA_PEDIDO): 118 lecturas lógicas y 0,28 ms por apertura (INDEX RANGE SCAN).
+Con el índice INVISIBLE, probándolo solo en mi sesión: CREATE INDEX ... INVISIBLE ONLINE, ALTER SESSION SET optimizer_use_invisible_indexes = TRUE (116 lecturas en la prueba) y después ALTER INDEX ... VISIBLE.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104922Z_C14_entender.txt, docs/bitacora/lab7/evidencia/casos/20261126T104934Z_C14_solucionar.txt y docs/bitacora/lab7/evidencia/casos/20261126T104937Z_C14_validar.txt
+
 2. Redo con el índice INVISIBLE y VISIBLE: ¿qué demuestra?
+
+Redo de cambiar el canal de 20000 pedidos: sin mantener el índice 9008 KB, con el índice INVISIBLE 10403 KB y con el índice VISIBLE 10403 KB.
+Demuestra que aunque sea invisible se mantiene igual.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104942Z_C14_observar.txt
 
 ## Parte F · C17 · INC-604 con AWR, ASH y ADDM
 1. SLI y SLO; p95 antes y después; instantáneas AWR que usaste.

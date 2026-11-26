@@ -138,3 +138,22 @@ P1 en la línea 3, P2 porque cada ciudad tiene una comunidad
 - **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas, no la base)
+
+## Entrada 7
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+P1 con estadísticas al día usa hash join y lee menos
+ponme las evidencias aqui como antes
+porque solo trabaja en su etapa de mantenimiento y no entra. ademas de que solo recoge al terminar gather table statas runbook rb-2
+el propio proceso
+P1 sirve para probar antes sin afectar a nadie
+me salio ora 20005 con force true
+P1 con invisible solo en mi sesión
+P2 que aunque sea invisible se mantiene igual
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** el comando awk que coloca mis respuestas de C12, C13 y C14 en docs/bitacora/lab7-respuestas.md (las órdenes caso y t6 estad son del kit)
+- **Dónde lo usé (parte, script o pregunta):** Parte E, C12, C13 y C14 (respuestas en docs/bitacora/lab7-respuestas.md)
+- **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** no aplica (edita el archivo de respuestas, no la base)
