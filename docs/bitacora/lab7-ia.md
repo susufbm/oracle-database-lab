@@ -200,3 +200,15 @@ Fallan muchas consultas a la vez porque optimizer_index_cost_adj es un parámetr
 - **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
 - **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora. SET_TABLE_PREFS cambia la preferencia METHOD_OPT a SIZE AUTO, GATHER_TABLE_STATS recoge las estadísticas de nuevo y tira el plan viejo, y el RESET quita el valor del parámetro de memoria y del SPFILE para que vuelva al de por defecto.
 - **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** docs/bitacora/lab7/evidencia/incidentes/20261126T171307Z_INC-608_verificar.txt y docs/bitacora/lab7/evidencia/incidentes/20261126T173115Z_INC-610_verificar.txt
+
+## Entrada 10
+- **Herramienta:** Claude (Claude Code), como tutor
+- **Prompt (literal, copiado tal cual):**
+```text
+c14 porque no afecta a nadie
+```
+- **Código recibido (el fragmento, o la ruta del archivo donde está):** el comando awk que coloca mi reflexión en docs/bitacora/lab7-respuestas.md y las órdenes rm .git/refs/remotes/origin/perf/14-optimizacion y git fetch origin para arreglar la referencia rota tras el push
+- **Dónde lo usé (parte, script o pregunta):** Parte H, reflexión (docs/bitacora/lab7-respuestas.md) y arreglo de la referencia de Git
+- **Propósito (para qué lo necesitaba):** Te he utilizado para que cojas mis respuestas y las pongas donde me las piden, pero son de cosecha propia.
+- **Qué hace (con mis palabras; línea a línea si es SQL corto):** Tú coges mis respuestas y las copias en la bitácora. El rm borra la referencia local rota y el fetch la vuelve a traer de GitHub.
+- **Evidencia de ejecución (archivo de docs/bitacora/lab7/evidencia con mi cabecera):** docs/bitacora/lab7/evidencia/09-verificacion-final.txt

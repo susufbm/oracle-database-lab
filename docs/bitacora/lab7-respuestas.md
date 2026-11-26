@@ -187,4 +187,11 @@ Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T163003Z_C18_diagnosticar.
 
 ## Parte H · Reflexión
 1. De todo el laboratorio, ¿qué cambio dio más mejora por menos riesgo? Justifícalo con tus números.
+
+C14, porque no afecta a nadie.
+El panel de pendientes pasó de 5265 lecturas lógicas y 16,8 ms por apertura (TABLE ACCESS FULL) a 118 lecturas y 0,28 ms (INDEX RANGE SCAN) con IX_T6_C14_PEND. El índice se creó INVISIBLE ONLINE y lo probé solo en mi sesión con optimizer_use_invisible_indexes = TRUE (116 lecturas) antes de hacerlo VISIBLE.
+Evidencia: docs/bitacora/lab7/evidencia/casos/20261126T104922Z_C14_entender.txt, docs/bitacora/lab7/evidencia/casos/20261126T104934Z_C14_solucionar.txt y docs/bitacora/lab7/evidencia/casos/20261126T104937Z_C14_validar.txt
+
 2. Un caso no evaluable (sin ★) que hayas hecho y qué aprendiste de él (opcional, cuenta para la certificación).
+
+No he hecho ningún caso no evaluable.
